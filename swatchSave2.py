@@ -6,21 +6,22 @@ def findem(url, chop, save):
 	try:
 		resp=ur.urlopen(url)
 		data=resp.read().decode('utf-8', errors="ignore")
-		imgs=re.findall(r'<img(.*?)>',data)
-		downs(imgs,chop, save)
+		imgs=re.findall(r'<a(.*?)>',data)
+		downs(imgs, chop, save)
 	except Exception as e:
 		print(str(e))
 
 def downs(imgs, chop, save):
 	#fh=open()
 	for i in imgs:
-		src=re.findall(r'src="(.*?)"',i)
+		src=re.findall(r'href="(.*?)"',i)
 		for s in src:
-			if "swatch" in s:
+			if "catimg" in s:
 				if "png" in s:
-					print(s[8:-8])
+					print(s[14:-6])
 					try:
-						ur.urlretrieve(str(chop)+str(s), str(save)+s[8:])
+						#print(str(chop)+str(s))
+						ur.urlretrieve(str(chop)+str(s), str(save)+s[14:])
 					except Exception as e:
 						print(str(e))
 def main():
